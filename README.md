@@ -1,6 +1,6 @@
 # Cool_Nerds
 
-1) create MLP multiclass classifier and data processing (Yan Zhao)
-2) generate \delta x (noise for each sample) for first 
-training step ()
-3) 
+11-24
+1) Created MLP multiclass classifier and data processing 
+2) Generated noise for samples 
+3) Visualized images  
