@@ -8,7 +8,7 @@ from itertools import cycle
 
 from models import MLP, MLP_tuning, regu_MLP
 from adversarial import deepfool, FGS
-from helper import preprocess, train, regu_train, test, rho2, plot_acc_on_FGS
+from helper import preprocess, train, regu_train, test, rho2, plot_acc_on_FGS, roc
 
 
 def main():
@@ -110,6 +110,13 @@ def main():
                            "Deep Defense": FGS_regu_test_acc}, index=["eps_ref@0.2", "eps_ref@0.5", "eps_ref@1.0"])
     result_table = pd.concat([benign_test_acc, rho2_all, acc_fgs], ignore_index = False).transpose()
     print(result_table)
+
+    print("Showing ROC plot of Vanilla MLP...")
+    roc(orig_model, test_inputs, y_test)
+    print("Showing ROC plot of Fine tuning MLP...")
+    roc(tuning_model, test_inputs, y_test)
+    print("Showing ROC plot of Deep Defense MLP...")
+    roc(regu_model, test_inputs, y_test)
 
 if __name__ == "__main__":
     main()
