@@ -74,7 +74,7 @@ def rho2(test_all_r_out, test_inputs):
     return tf.reduce_mean(tf.norm(test_all_r_out, axis = 1 ) /tf.norm(test_inputs, axis = 1)).numpy()
 
 
-def roc(model, inputs, labels):
+def roc(model, inputs, labels, model_name):
     n_classes = labels.shape[1]
 
     logits = model.call(inputs)
@@ -95,7 +95,7 @@ def roc(model, inputs, labels):
 
     plt.figure()
     colors = cycle(['blue', 'darkorange'])
-    for i, color in zip(range(2, 4), colors):
+    for i, color in zip([2,3], colors):
         plt.plot(fpr[i], tpr[i], color=color, lw=2,
                  label='ROC curve of class {0} (area = {1:0.2f})'
                        ''.format(i, roc_auc[i]))
@@ -105,7 +105,7 @@ def roc(model, inputs, labels):
     plt.ylim([0.0, 1.05])
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
-    plt.title('ROC curver for class 2 and class 3')
+    plt.title('ROC curve for class 2 and class 3 of '+ model_name)
     plt.legend(loc="lower right")
     plt.show()
 

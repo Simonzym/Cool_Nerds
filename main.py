@@ -69,6 +69,16 @@ def main():
 
 
     ################### Evaluation #########################
+    # ROC curve on deepfool testing image generated from origianl MLP model
+    roc1 = roc(orig_model, test_adv_orig, y_test, "Vanilla MLP")
+    roc2 = roc(tuning_model, test_adv_orig, y_test, "Fine tuning MLP")
+    roc3 = roc(regu_model, test_adv_orig, y_test, "Deep Defense MLP")
+    AUC = pd.DataFrame({"Vanilla MLP": list(roc1.values()),
+                        "Fine-Tune MLP": list(roc2.values()),
+                        "Deep Defense": list(roc3.values())}, index=["label " + str(i + 1) for i in range(10)])
+    print("Area Under the Curve:")
+    print(AUC)
+
     # testing acc on benign images
     benign_test_acc=pd.DataFrame({
         "Vanilla MLP":test(orig_model, test_inputs, y_test),
@@ -111,12 +121,7 @@ def main():
     result_table = pd.concat([benign_test_acc, rho2_all, acc_fgs], ignore_index = False).transpose()
     print(result_table)
 
-    print("Showing ROC plot of Vanilla MLP...")
-    roc(orig_model, test_inputs, y_test)
-    print("Showing ROC plot of Fine tuning MLP...")
-    roc(tuning_model, test_inputs, y_test)
-    print("Showing ROC plot of Deep Defense MLP...")
-    roc(regu_model, test_inputs, y_test)
+
 
 if __name__ == "__main__":
     main()
